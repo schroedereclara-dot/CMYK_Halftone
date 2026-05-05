@@ -361,13 +361,19 @@ function setupAdvancedToggle() {
   // Startzustand: sichtbar (wie vorher "open")
   advancedVisible = true;
   panel.classList.add('visible');
+  btn.setAttribute('aria-expanded', 'true');
+  panel.hidden = false;
 
   btn.addEventListener('click', () => {
     advancedVisible = !advancedVisible;
     if (advancedVisible) {
       panel.classList.add('visible');
+      panel.hidden = false;
+      btn.setAttribute('aria-expanded', 'true');
     } else {
       panel.classList.remove('visible');
+      panel.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
     }
   });
 }
@@ -382,6 +388,8 @@ function setupFullscreenToggle() {
     toggleBtn.addEventListener('click', () => {
       isFullscreenMode = true;
       body.classList.add('fullscreen-mode');
+      toggleBtn.setAttribute('aria-pressed', 'true');
+      toggleBtn.setAttribute('aria-label', 'Fullscreen Vorschau aktiv');
       if (typeof windowResized === 'function') {
         windowResized();
       }
@@ -392,6 +400,10 @@ function setupFullscreenToggle() {
     restoreBtn.addEventListener('click', () => {
       isFullscreenMode = false;
       body.classList.remove('fullscreen-mode');
+      if (toggleBtn) {
+        toggleBtn.setAttribute('aria-pressed', 'false');
+        toggleBtn.setAttribute('aria-label', 'Fullscreen Vorschau aktivieren');
+      }
       if (typeof windowResized === 'function') {
         windowResized();
       }
@@ -505,9 +517,12 @@ function resetParametersOnly() {
 
   // Advanced Panel wieder sichtbar machen
   const panel = document.getElementById('advancedPanel');
-  if (panel) {
+  const btn = document.getElementById('advancedToggleBtn');
+  if (panel && btn) {
     panel.classList.add('visible');
+    panel.hidden = false;
     advancedVisible = true;
+    btn.setAttribute('aria-expanded', 'true');
   }
 
   halftoneDirty = true;

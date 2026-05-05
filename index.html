@@ -8,7 +8,10 @@
   <!-- JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
 
   <!-- Haupt-CSS -->
   <link rel="stylesheet" href="./src/css/main.css" />
@@ -33,7 +36,13 @@
       <!-- Header -->
       <header id="panel-header">
         <h1>CMYK Halftone Simulator</h1>
-        <button id="panel-toggle-btn" aria-label="Fullscreen Vorschau">⤢</button>
+        <button
+          id="panel-toggle-btn"
+          aria-label="Fullscreen Vorschau aktivieren"
+          aria-pressed="false"
+        >
+          ⤢
+        </button>
       </header>
 
       <!-- Scrollbarer Inhalt -->
@@ -51,23 +60,40 @@
 
         <!-- Globale Parameter -->
         <section class="control-section">
-          <label class="section-label">Punktgröße Global: <span id="dotSizeValue">10</span>px</label>
+          <label class="section-label">
+            Punktgröße Global: <span id="dotSizeValue">10</span>px
+          </label>
           <input type="range" id="dotSize" min="2" max="80" value="10" />
 
-          <label class="section-label">Raster-Abstand: <span id="spacingValue">10</span>px</label>
+          <label class="section-label">
+            Raster-Abstand: <span id="spacingValue">10</span>px
+          </label>
           <input type="range" id="spacing" min="4" max="60" value="10" />
 
-          <label class="section-label">Dichte: <span id="densityValue">1.0</span></label>
+          <label class="section-label">
+            Dichte: <span id="densityValue">1.0</span>
+          </label>
           <input type="range" id="density" min="0.3" max="2" step="0.1" value="1" />
 
-          <label class="section-label">Randomness: <span id="jitterValue">0.00</span></label>
+          <label class="section-label">
+            Randomness: <span id="jitterValue">0.00</span>
+          </label>
           <input type="range" id="jitter" min="0" max="1" step="0.05" value="0" />
         </section>
 
         <!-- Preview Zoom -->
         <section class="control-section">
-          <label class="section-label">Preview Zoom: <span id="zoomValue">100</span>%</label>
-          <input type="range" id="previewZoom" min="50" max="300" step="10" value="100" />
+          <label class="section-label">
+            Preview Zoom: <span id="zoomValue">100</span>%
+          </label>
+          <input
+            type="range"
+            id="previewZoom"
+            min="50"
+            max="300"
+            step="10"
+            value="100"
+          />
         </section>
 
         <!-- Preview Optionen: Vorschau + Performance-Preview in einer Zeile -->
@@ -86,23 +112,70 @@
         <section class="control-section">
           <label class="section-label">Punktform:</label>
           <div class="shape-row global-shape-row">
-            <button type="button" class="shape-btn global-shape-btn active" data-global-shape="circle">●</button>
-            <button type="button" class="shape-btn global-shape-btn" data-global-shape="square">■</button>
-            <button type="button" class="shape-btn global-shape-btn" data-global-shape="line">━</button>
-            <button type="button" class="shape-btn global-shape-btn" data-global-shape="triangle">▲</button>
-            <button type="button" class="shape-btn global-shape-btn" data-global-shape="star">★</button>
-            <button type="button" class="shape-btn global-shape-btn" data-global-shape="asterisk">*</button>
+            <button
+              type="button"
+              class="shape-btn global-shape-btn active"
+              data-global-shape="circle"
+            >
+              ●
+            </button>
+            <button
+              type="button"
+              class="shape-btn global-shape-btn"
+              data-global-shape="square"
+            >
+              ■
+            </button>
+            <button
+              type="button"
+              class="shape-btn global-shape-btn"
+              data-global-shape="line"
+            >
+              ━
+            </button>
+            <button
+              type="button"
+              class="shape-btn global-shape-btn"
+              data-global-shape="triangle"
+            >
+              ▲
+            </button>
+            <button
+              type="button"
+              class="shape-btn global-shape-btn"
+              data-global-shape="star"
+            >
+              ★
+            </button>
+            <button
+              type="button"
+              class="shape-btn global-shape-btn"
+              data-global-shape="asterisk"
+            >
+              *
+            </button>
           </div>
         </section>
 
         <!-- Erweitert: Button + Panel -->
         <section class="control-section">
-          <button id="advancedToggleBtn" type="button" class="preset-btn advanced-toggle-btn">
+          <button
+            id="advancedToggleBtn"
+            type="button"
+            class="preset-btn advanced-toggle-btn"
+            aria-controls="advancedPanel"
+            aria-expanded="true"
+          >
             Erweiterter Modus
           </button>
         </section>
 
-        <section id="advancedPanel" class="advanced-panel">
+        <section
+          id="advancedPanel"
+          class="advanced-panel"
+          role="region"
+          aria-label="Erweiterte Kanal-Einstellungen"
+        >
           <!-- CYAN -->
           <section class="channel-section channel-c">
             <header class="channel-header">
@@ -117,7 +190,14 @@
               <label class="section-label">
                 Punktgröße Cyan: <span id="dotSizeCValue">1.00</span>
               </label>
-              <input type="range" id="dotSizeC" min="0.2" max="2" step="0.05" value="1" />
+              <input
+                type="range"
+                id="dotSizeC"
+                min="0.2"
+                max="2"
+                step="0.05"
+                value="1"
+              />
 
               <label class="section-label">
                 Screen-Winkel: <span id="angleCValue">75</span>°
@@ -130,13 +210,62 @@
               <input type="range" id="imgAngleC" min="-90" max="90" value="0" />
 
               <div class="shape-row">
-                <button type="button" class="shape-btn" data-channel="c" data-shape="global">G</button>
-                <button type="button" class="shape-btn" data-channel="c" data-shape="circle">●</button>
-                <button type="button" class="shape-btn" data-channel="c" data-shape="square">■</button>
-                <button type="button" class="shape-btn" data-channel="c" data-shape="line">━</button>
-                <button type="button" class="shape-btn" data-channel="c" data-shape="triangle">▲</button>
-                <button type="button" class="shape-btn" data-channel="c" data-shape="star">★</button>
-                <button type="button" class="shape-btn" data-channel="c" data-shape="asterisk">*</button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="c"
+                  data-shape="global"
+                >
+                  G
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="c"
+                  data-shape="circle"
+                >
+                  ●
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="c"
+                  data-shape="square"
+                >
+                  ■
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="c"
+                  data-shape="line"
+                >
+                  ━
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="c"
+                  data-shape="triangle"
+                >
+                  ▲
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="c"
+                  data-shape="star"
+                >
+                  ★
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="c"
+                  data-shape="asterisk"
+                >
+                  *
+                </button>
               </div>
             </div>
           </section>
@@ -155,7 +284,14 @@
               <label class="section-label">
                 Punktgröße Magenta: <span id="dotSizeMValue">1.00</span>
               </label>
-              <input type="range" id="dotSizeM" min="0.2" max="2" step="0.05" value="1" />
+              <input
+                type="range"
+                id="dotSizeM"
+                min="0.2"
+                max="2"
+                step="0.05"
+                value="1"
+              />
 
               <label class="section-label">
                 Screen-Winkel: <span id="angleMValue">15</span>°
@@ -168,13 +304,62 @@
               <input type="range" id="imgAngleM" min="-90" max="90" value="0" />
 
               <div class="shape-row">
-                <button type="button" class="shape-btn" data-channel="m" data-shape="global">G</button>
-                <button type="button" class="shape-btn" data-channel="m" data-shape="circle">●</button>
-                <button type="button" class="shape-btn" data-channel="m" data-shape="square">■</button>
-                <button type="button" class="shape-btn" data-channel="m" data-shape="line">━</button>
-                <button type="button" class="shape-btn" data-channel="m" data-shape="triangle">▲</button>
-                <button type="button" class="shape-btn" data-channel="m" data-shape="star">★</button>
-                <button type="button" class="shape-btn" data-channel="m" data-shape="asterisk">*</button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="m"
+                  data-shape="global"
+                >
+                  G
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="m"
+                  data-shape="circle"
+                >
+                  ●
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="m"
+                  data-shape="square"
+                >
+                  ■
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="m"
+                  data-shape="line"
+                >
+                  ━
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="m"
+                  data-shape="triangle"
+                >
+                  ▲
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="m"
+                  data-shape="star"
+                >
+                  ★
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="m"
+                  data-shape="asterisk"
+                >
+                  *
+                </button>
               </div>
             </div>
           </section>
@@ -193,7 +378,14 @@
               <label class="section-label">
                 Punktgröße Yellow: <span id="dotSizeYValue">1.00</span>
               </label>
-              <input type="range" id="dotSizeY" min="0.2" max="2" step="0.05" value="1" />
+              <input
+                type="range"
+                id="dotSizeY"
+                min="0.2"
+                max="2"
+                step="0.05"
+                value="1"
+              />
 
               <label class="section-label">
                 Screen-Winkel: <span id="angleYValue">0</span>°
@@ -206,13 +398,62 @@
               <input type="range" id="imgAngleY" min="-90" max="90" value="0" />
 
               <div class="shape-row">
-                <button type="button" class="shape-btn" data-channel="y" data-shape="global">G</button>
-                <button type="button" class="shape-btn" data-channel="y" data-shape="circle">●</button>
-                <button type="button" class="shape-btn" data-channel="y" data-shape="square">■</button>
-                <button type="button" class="shape-btn" data-channel="y" data-shape="line">━</button>
-                <button type="button" class="shape-btn" data-channel="y" data-shape="triangle">▲</button>
-                <button type="button" class="shape-btn" data-channel="y" data-shape="star">★</button>
-                <button type="button" class="shape-btn" data-channel="y" data-shape="asterisk">*</button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="y"
+                  data-shape="global"
+                >
+                  G
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="y"
+                  data-shape="circle"
+                >
+                  ●
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="y"
+                  data-shape="square"
+                >
+                  ■
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="y"
+                  data-shape="line"
+                >
+                  ━
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="y"
+                  data-shape="triangle"
+                >
+                  ▲
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="y"
+                  data-shape="star"
+                >
+                  ★
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="y"
+                  data-shape="asterisk"
+                >
+                  *
+                </button>
               </div>
             </div>
           </section>
@@ -231,7 +472,14 @@
               <label class="section-label">
                 Punktgröße Black: <span id="dotSizeKValue">1.00</span>
               </label>
-              <input type="range" id="dotSizeK" min="0.2" max="2" step="0.05" value="1" />
+              <input
+                type="range"
+                id="dotSizeK"
+                min="0.2"
+                max="2"
+                step="0.05"
+                value="1"
+              />
 
               <label class="section-label">
                 Screen-Winkel: <span id="angleKValue">45</span>°
@@ -244,13 +492,62 @@
               <input type="range" id="imgAngleK" min="-90" max="90" value="0" />
 
               <div class="shape-row">
-                <button type="button" class="shape-btn" data-channel="k" data-shape="global">G</button>
-                <button type="button" class="shape-btn" data-channel="k" data-shape="circle">●</button>
-                <button type="button" class="shape-btn" data-channel="k" data-shape="square">■</button>
-                <button type="button" class="shape-btn" data-channel="k" data-shape="line">━</button>
-                <button type="button" class="shape-btn" data-channel="k" data-shape="triangle">▲</button>
-                <button type="button" class="shape-btn" data-channel="k" data-shape="star">★</button>
-                <button type="button" class="shape-btn" data-channel="k" data-shape="asterisk">*</button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="k"
+                  data-shape="global"
+                >
+                  G
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="k"
+                  data-shape="circle"
+                >
+                  ●
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="k"
+                  data-shape="square"
+                >
+                  ■
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="k"
+                  data-shape="line"
+                >
+                  ━
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="k"
+                  data-shape="triangle"
+                >
+                  ▲
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="k"
+                  data-shape="star"
+                >
+                  ★
+                </button>
+                <button
+                  type="button"
+                  class="shape-btn"
+                  data-channel="k"
+                  data-shape="asterisk"
+                >
+                  *
+                </button>
               </div>
             </div>
           </section>
@@ -264,8 +561,8 @@
       <!-- Footer -->
       <footer id="panel-footer">
         <button id="resetBtn" type="button">↺</button>
-        <button id="downloadJpeg">Bild als JPEG</button>
-        <button id="downloadLayers">CMYK Ebenen als Layer</button>
+        <button id="downloadJpeg" type="button">Bild als JPEG</button>
+        <button id="downloadLayers" type="button">CMYK Ebenen als Layer</button>
       </footer>
     </aside>
   </main>
