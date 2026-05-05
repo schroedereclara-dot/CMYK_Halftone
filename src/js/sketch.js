@@ -229,35 +229,35 @@ function halftoneChannelCombined(channel, chanData, shape, useColor, scaleFactor
   const cosI = Math.cos(imageRad);
   const sinI = Math.sin(imageRad);
 
-  let stepBase = Math.max(2, Math.round(spacing));
+  let step = Math.max(2, Math.round(spacing));
   if (isPreview && fastPreview) {
-    stepBase = Math.max(2, Math.round(stepBase * 1.8)); // gröberes Raster in der Preview
+    step = Math.max(2, Math.round(step * 1.8));
   }
 
-  const step = stepBase;
   const maxRadius = dotSize * sizeFactor;
 
   const halfW = w / 2;
   const halfH = h / 2;
 
-  for (let y = 0; y < h; y += step) {
-    for (let x = 0; x < w; x += step) {
-      const rX = x * cosS - y * sinS;
-      const rY = x * sinS + y * cosS;
+  // Erweiterte Bounds, damit die rotierte Grid-Fläche das ganze Bild sicher abdeckt
+  const diag = Math.sqrt(w * w + h * h);
+  const gridMinX = -diag * 0.5;
+  const gridMaxX = diag * 0.5;
+  const gridMinY = -diag * 0.5;
+  const gridMaxY = diag * 0.5;
 
-      const gX = Math.floor(rX / step) * step;
-      const gY = Math.floor(rY / step) * step;
+  for (let gy = gridMinY; gy <= gridMaxY; gy += step) {
+    for (let gx = gridMinX; gx <= gridMaxX; gx += step) {
+      // Gedrehtes Screen-Grid global über die Fläche
+      const px = halfW + (gx * cosS - gy * sinS);
+      const py = halfH + (gx * sinS + gy * cosS);
 
-      const px = gX * cosS + gY * sinS;
-      const py = -gX * sinS + gY * cosS;
+      if (px < 0 || px >= w || py < 0 || py >= h) continue;
 
-      const pxRound = Math.floor(px);
-      const pyRound = Math.floor(py);
+      const dx = px - halfW;
+      const dy = py - halfH;
 
-      if (pxRound < 0 || pxRound >= w || pyRound < 0 || pyRound >= h) continue;
-
-      const dx = pxRound - halfW;
-      const dy = pyRound - halfH;
+      // optionaler Bildwinkel: nur Sampling des Bildes, nicht das Screen-Grid selbst
       const sx = Math.round(cosI * dx - sinI * dy + halfW);
       const sy = Math.round(sinI * dx + cosI * dy + halfH);
 
@@ -273,6 +273,7 @@ function halftoneChannelCombined(channel, chanData, shape, useColor, scaleFactor
 
       let drawX = px * sf;
       let drawY = py * sf;
+
       if (jitter > 0) {
         const maxOffset = step * jitter * 0.5 * sf;
         drawX += (Math.random() * 2 - 1) * maxOffset;
