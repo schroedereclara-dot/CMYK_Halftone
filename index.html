@@ -29,6 +29,17 @@
     <div id="canvas-container">
       <!-- Button zum Wieder-Einblenden, nur im Fullscreen-Modus sichtbar -->
       <button id="panel-restore-btn" aria-label="Bedienpanel einblenden">⤡</button>
+
+      <!-- Credit-Tag auf der Canvas -->
+      <div id="canvas-credit">
+        <a
+          href="https://www.instagram.com/clarasentwurf/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          by Clara Schroeder @clarasentwurf
+        </a>
+      </div>
     </div>
 
     <!-- Rechts: Controls -->
@@ -96,7 +107,7 @@
           />
         </section>
 
-        <!-- Preview Optionen: Vorschau + Performance-Preview in einer Zeile -->
+        <!-- Preview Optionen -->
         <section class="control-section preview-row">
           <label class="section-label preview-label">
             <input type="checkbox" id="preview" checked />
@@ -210,62 +221,13 @@
               <input type="range" id="imgAngleC" min="-90" max="90" value="0" />
 
               <div class="shape-row">
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="c"
-                  data-shape="global"
-                >
-                  G
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="c"
-                  data-shape="circle"
-                >
-                  ●
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="c"
-                  data-shape="square"
-                >
-                  ■
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="c"
-                  data-shape="line"
-                >
-                  ━
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="c"
-                  data-shape="triangle"
-                >
-                  ▲
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="c"
-                  data-shape="star"
-                >
-                  ★
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="c"
-                  data-shape="asterisk"
-                >
-                  *
-                </button>
+                <button type="button" class="shape-btn" data-channel="c" data-shape="global">G</button>
+                <button type="button" class="shape-btn" data-channel="c" data-shape="circle">●</button>
+                <button type="button" class="shape-btn" data-channel="c" data-shape="square">■</button>
+                <button type="button" class="shape-btn" data-channel="c" data-shape="line">━</button>
+                <button type="button" class="shape-btn" data-channel="c" data-shape="triangle">▲</button>
+                <button type="button" class="shape-btn" data-channel="c" data-shape="star">★</button>
+                <button type="button" class="shape-btn" data-channel="c" data-shape="asterisk">*</button>
               </div>
             </div>
           </section>
@@ -304,62 +266,13 @@
               <input type="range" id="imgAngleM" min="-90" max="90" value="0" />
 
               <div class="shape-row">
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="m"
-                  data-shape="global"
-                >
-                  G
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="m"
-                  data-shape="circle"
-                >
-                  ●
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="m"
-                  data-shape="square"
-                >
-                  ■
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="m"
-                  data-shape="line"
-                >
-                  ━
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="m"
-                  data-shape="triangle"
-                >
-                  ▲
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="m"
-                  data-shape="star"
-                >
-                  ★
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="m"
-                  data-shape="asterisk"
-                >
-                  *
-                </button>
+                <button type="button" class="shape-btn" data-channel="m" data-shape="global">G</button>
+                <button type="button" class="shape-btn" data-channel="m" data-shape="circle">●</button>
+                <button type="button" class="shape-btn" data-channel="m" data-shape="square">■</button>
+                <button type="button" class="shape-btn" data-channel="m" data-shape="line">━</button>
+                <button type="button" class="shape-btn" data-channel="m" data-shape="triangle">▲</button>
+                <button type="button" class="shape-btn" data-channel="m" data-shape="star">★</button>
+                <button type="button" class="shape-btn" data-channel="m" data-shape="asterisk">*</button>
               </div>
             </div>
           </section>
@@ -398,62 +311,13 @@
               <input type="range" id="imgAngleY" min="-90" max="90" value="0" />
 
               <div class="shape-row">
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="y"
-                  data-shape="global"
-                >
-                  G
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="y"
-                  data-shape="circle"
-                >
-                  ●
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="y"
-                  data-shape="square"
-                >
-                  ■
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="y"
-                  data-shape="line"
-                >
-                  ━
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="y"
-                  data-shape="triangle"
-                >
-                  ▲
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="y"
-                  data-shape="star"
-                >
-                  ★
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="y"
-                  data-shape="asterisk"
-                >
-                  *
-                </button>
+                <button type="button" class="shape-btn" data-channel="y" data-shape="global">G</button>
+                <button type="button" class="shape-btn" data-channel="y" data-shape="circle">●</button>
+                <button type="button" class="shape-btn" data-channel="y" data-shape="square">■</button>
+                <button type="button" class="shape-btn" data-channel="y" data-shape="line">━</button>
+                <button type="button" class="shape-btn" data-channel="y" data-shape="triangle">▲</button>
+                <button type="button" class="shape-btn" data-channel="y" data-shape="star">★</button>
+                <button type="button" class="shape-btn" data-channel="y" data-shape="asterisk">*</button>
               </div>
             </div>
           </section>
@@ -492,62 +356,13 @@
               <input type="range" id="imgAngleK" min="-90" max="90" value="0" />
 
               <div class="shape-row">
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="k"
-                  data-shape="global"
-                >
-                  G
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="k"
-                  data-shape="circle"
-                >
-                  ●
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="k"
-                  data-shape="square"
-                >
-                  ■
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="k"
-                  data-shape="line"
-                >
-                  ━
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="k"
-                  data-shape="triangle"
-                >
-                  ▲
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="k"
-                  data-shape="star"
-                >
-                  ★
-                </button>
-                <button
-                  type="button"
-                  class="shape-btn"
-                  data-channel="k"
-                  data-shape="asterisk"
-                >
-                  *
-                </button>
+                <button type="button" class="shape-btn" data-channel="k" data-shape="global">G</button>
+                <button type="button" class="shape-btn" data-channel="k" data-shape="circle">●</button>
+                <button type="button" class="shape-btn" data-channel="k" data-shape="square">■</button>
+                <button type="button" class="shape-btn" data-channel="k" data-shape="line">━</button>
+                <button type="button" class="shape-btn" data-channel="k" data-shape="triangle">▲</button>
+                <button type="button" class="shape-btn" data-channel="k" data-shape="star">★</button>
+                <button type="button" class="shape-btn" data-channel="k" data-shape="asterisk">*</button>
               </div>
             </div>
           </section>
@@ -560,9 +375,11 @@
 
       <!-- Footer -->
       <footer id="panel-footer">
-        <button id="resetBtn" type="button">↺</button>
-        <button id="downloadJpeg" type="button">Bild als JPEG</button>
-        <button id="downloadLayers" type="button">CMYK Ebenen als Layer</button>
+        <div class="footer-actions">
+          <button id="resetBtn" type="button">↺</button>
+          <button id="downloadJpeg" type="button">Bild als JPEG</button>
+          <button id="downloadLayers" type="button">CMYK Ebenen als Layer</button>
+        </div>
       </footer>
     </aside>
   </main>
