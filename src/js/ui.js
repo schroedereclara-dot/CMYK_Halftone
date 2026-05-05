@@ -145,16 +145,14 @@ function setupControls() {
     });
   }
 
-  // Preview Zoom
   if (zoomEl && zoomValueEl) {
     zoomEl.addEventListener('input', (e) => {
-      const val = Number(e.target.value); // 50–300
+      const val = Number(e.target.value);
       previewZoom = val / 100.0;
       zoomValueEl.textContent = val;
     });
   }
 
-  // Performance-Preview
   if (fastPreviewEl) {
     fastPreviewEl.addEventListener('change', (e) => {
       fastPreview = e.target.checked;
@@ -168,7 +166,6 @@ function setupControls() {
     });
   }
 
-  // globale Shape-Buttons
   globalShapeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const shp = btn.dataset.globalShape;
@@ -179,7 +176,6 @@ function setupControls() {
     });
   });
 
-  // per-Channel Dot-Size
   if (dotSizeCEl) {
     dotSizeCEl.addEventListener('input', (e) => {
       dotSizeFactorC = Number(e.target.value);
@@ -209,7 +205,6 @@ function setupControls() {
     });
   }
 
-  // Screen-Winkel
   if (angleCEl) {
     angleCEl.addEventListener('input', (e) => {
       screenAngleC = Number(e.target.value);
@@ -239,7 +234,6 @@ function setupControls() {
     });
   }
 
-  // Image-Winkel
   if (imgAngleCEl) {
     imgAngleCEl.addEventListener('input', (e) => {
       angleC = Number(e.target.value);
@@ -269,7 +263,6 @@ function setupControls() {
     });
   }
 
-  // Kanal-Sichtbarkeit
   if (channelCEnabledEl) {
     channelCEnabledEl.addEventListener('change', (e) => {
       showC = e.target.checked;
@@ -295,7 +288,6 @@ function setupControls() {
     });
   }
 
-  // Kanal-Shape-Buttons
   shapeButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const ch = btn.dataset.channel;
@@ -358,7 +350,6 @@ function setupAdvancedToggle() {
   const panel = document.getElementById('advancedPanel');
   if (!btn || !panel) return;
 
-  // Startzustand: sichtbar (wie vorher "open")
   advancedVisible = true;
   panel.classList.add('visible');
   btn.setAttribute('aria-expanded', 'true');
@@ -515,7 +506,6 @@ function resetParametersOnly() {
     if (gBtn) gBtn.classList.add('active');
   });
 
-  // Advanced Panel wieder sichtbar machen
   const panel = document.getElementById('advancedPanel');
   const btn = document.getElementById('advancedToggleBtn');
   if (panel && btn) {
@@ -532,23 +522,110 @@ function resetParametersOnly() {
 function setupImageUpload() {
   const fileInput = document.getElementById('imageUpload');
   const dropZone = document.getElementById('dropZone');
+  const canvasContainer = document.getElementById('canvas-container');
+
+  let dropZoneDragCounter = 0;
+  let canvasDragCounter = 0;
 
   if (fileInput) {
     fileInput.addEventListener('change', (e) => {
-      if (e.target.files && e.target.files[0]) loadImageFile(e.target.files[0]);
+      if (e.target.files && e.target.files[0]) {
+        loadImageFile(e.target.files[0]);
+      }
     });
   }
 
-  if (dropZone) {
-    dropZone.addEventListener('dragover', (e) => {
+  // Browser soll Datei nicht einfach öffnen
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    window.addEventListener(eventName, (e) => {
       e.preventDefault();
-      dropZone.classList.add('drag-over');
     });
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  });
+
+  function isImageDrag(e) {
+    if (!e.dataTransfer || !e.dataTransfer.items) return false;
+    return Array.from(e.dataTransfer.items).some(item => item.kind === 'file' && item.type.startsWith('image/'));
+  }
+
+  function getFirstImageFile(e) {
+    if (!e.dataTransfer || !e.dataTransfer.files) return null;
+    const files = Array.from(e.dataTransfer.files);
+    return files.find(file => file.type.startsWith('image/')) || null;
+  }
+
+  function activateDropZone() {
+    if (dropZone) dropZone.classList.add('drag-over');
+  }
+
+  function deactivateDropZone() {
+    if (dropZone) dropZone.classList.remove('drag-over');
+  }
+
+  function activateCanvasZone() {
+    if (canvasContainer) canvasContainer.classList.add('drag-over');
+  }
+
+  function deactivateCanvasZone() {
+    if (canvasContainer) canvasContainer.classList.remove('drag-over');
+  }
+
+  if (dropZone) {
+    dropZone.addEventListener('dragenter', (e) => {
+      if (!isImageDrag(e)) return;
+      dropZoneDragCounter++;
+      activateDropZone();
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      if (!isImageDrag(e)) return;
+      e.dataTransfer.dropEffect = 'copy';
+      activateDropZone();
+    });
+
+    dropZone.addEventListener('dragleave', (e) => {
+      if (!isImageDrag(e)) return;
+      dropZoneDragCounter = Math.max(0, dropZoneDragCounter - 1);
+      if (dropZoneDragCounter === 0) {
+        deactivateDropZone();
+      }
+    });
+
     dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropZone.classList.remove('drag-over');
-      if (e.dataTransfer.files && e.dataTransfer.files[0]) loadImageFile(e.dataTransfer.files[0]);
+      dropZoneDragCounter = 0;
+      deactivateDropZone();
+
+      const file = getFirstImageFile(e);
+      if (file) loadImageFile(file);
+    });
+  }
+
+  if (canvasContainer) {
+    canvasContainer.addEventListener('dragenter', (e) => {
+      if (!isImageDrag(e)) return;
+      canvasDragCounter++;
+      activateCanvasZone();
+    });
+
+    canvasContainer.addEventListener('dragover', (e) => {
+      if (!isImageDrag(e)) return;
+      e.dataTransfer.dropEffect = 'copy';
+      activateCanvasZone();
+    });
+
+    canvasContainer.addEventListener('dragleave', (e) => {
+      if (!isImageDrag(e)) return;
+      canvasDragCounter = Math.max(0, canvasDragCounter - 1);
+      if (canvasDragCounter === 0) {
+        deactivateCanvasZone();
+      }
+    });
+
+    canvasContainer.addEventListener('drop', (e) => {
+      canvasDragCounter = 0;
+      deactivateCanvasZone();
+
+      const file = getFirstImageFile(e);
+      if (file) loadImageFile(file);
     });
   }
 }
