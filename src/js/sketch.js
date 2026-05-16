@@ -42,19 +42,41 @@ function setup() {
 function draw() {
   background(0);
 
+  // Kein Bild geladen → Hinweistext
   if (!uploaded || !sourceCanvas) {
     fill(160);
     textSize(16);
     textAlign(CENTER, CENTER);
-    text('Lade ein Bild hoch, um CMYK-Halftone zu erzeugen und zu experimentieren.', width / 2, height / 2);
+    text(
+      'Lade ein Bild hoch, um CMYK-Halftone zu erzeugen und zu experimentieren.',
+      width / 2,
+      height / 2
+    );
     return;
   }
 
-  if (!preview) return;
+  // Preview explizit deaktiviert → neutrale Info statt „nichts“
+  if (!preview) {
+    fill(20);
+    noStroke();
+    rect(0, 0, width, height);
+
+    fill(200);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text(
+      'Vorschau ist deaktiviert.\nAktiviere „Vorschau“ im Panel, um das Raster zu sehen.',
+      width / 2,
+      height / 2
+    );
+    return;
+  }
 
   const chanData = getCMYKGraysCached();
+  if (!chanData) return;
   const { w, h } = chanData;
 
+  // Halftone bei Bedarf neu berechnen
   if (halftoneDirty) {
     halftoneCache.c = halftoneChannelCombined('c', chanData, getShapeForChannel('c'), true, 1, true);
     halftoneCache.m = halftoneChannelCombined('m', chanData, getShapeForChannel('m'), true, 1, true);
@@ -75,10 +97,12 @@ function draw() {
   const sx = (width - drawW) / 2 + panOffsetX;
   const sy = (height - drawH) / 2 + panOffsetY;
 
+  // Hintergrundfläche für das Raster
   noStroke();
   fill(220);
   rect(sx, sy, drawW, drawH);
 
+  // CMYK-Raster zeichnen
   drawingContext.save();
   drawingContext.translate(sx, sy);
   drawingContext.scale(scale, scale);
@@ -101,6 +125,8 @@ function windowResized() {
 
 // Maus-Events für Pan
 function mousePressed() {
+  // Nur pannen, wenn Canvas da ist und ein Bild geladen wurde
+  if (!uploaded || !sourceCanvas) return;
   if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
     isPanning = true;
     lastMouseX = mouseX;
@@ -375,6 +401,7 @@ function downloadAsJpeg() {
   if (!uploaded || !sourceCanvas) return;
 
   const chanData = getCMYKGraysCached();
+  if (!chanData) return;
   const { w, h } = chanData;
 
   const canvas = document.createElement('canvas');
@@ -410,6 +437,7 @@ function downloadAsLayers() {
   if (!uploaded || !sourceCanvas) return;
 
   const chanData = getCMYKGraysCached();
+  if (!chanData) return;
   const { w, h } = chanData;
 
   const channels = ['c', 'm', 'y', 'k'];

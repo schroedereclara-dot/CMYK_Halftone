@@ -113,10 +113,13 @@ function setupControls() {
   const downloadLayersBtn = document.getElementById('downloadLayers');
   const resetBtn = document.getElementById('resetBtn');
 
+  const fastPreviewHint = document.getElementById('fastPreviewHint');
+
   if (dotSizeEl) {
     dotSizeEl.addEventListener('input', (e) => {
       dotSize = Number(e.target.value);
-      document.getElementById('dotSizeValue').textContent = dotSize;
+      const label = document.getElementById('dotSizeValue');
+      if (label) label.textContent = dotSize;
       halftoneDirty = true;
     });
   }
@@ -124,7 +127,8 @@ function setupControls() {
   if (spacingEl) {
     spacingEl.addEventListener('input', (e) => {
       spacing = Number(e.target.value);
-      document.getElementById('spacingValue').textContent = spacing;
+      const label = document.getElementById('spacingValue');
+      if (label) label.textContent = spacing;
       halftoneDirty = true;
     });
   }
@@ -132,7 +136,8 @@ function setupControls() {
   if (densityEl) {
     densityEl.addEventListener('input', (e) => {
       density = Number(e.target.value);
-      document.getElementById('densityValue').textContent = density.toFixed(1);
+      const label = document.getElementById('densityValue');
+      if (label) label.textContent = density.toFixed(1);
       halftoneDirty = true;
     });
   }
@@ -140,7 +145,8 @@ function setupControls() {
   if (jitterEl) {
     jitterEl.addEventListener('input', (e) => {
       jitter = Number(e.target.value);
-      document.getElementById('jitterValue').textContent = jitter.toFixed(2);
+      const label = document.getElementById('jitterValue');
+      if (label) label.textContent = jitter.toFixed(2);
       halftoneDirty = true;
     });
   }
@@ -156,6 +162,9 @@ function setupControls() {
   if (fastPreviewEl) {
     fastPreviewEl.addEventListener('change', (e) => {
       fastPreview = e.target.checked;
+      if (fastPreviewHint) {
+        fastPreviewHint.classList.toggle('visible', fastPreview);
+      }
       halftoneDirty = true;
     });
   }
@@ -163,6 +172,7 @@ function setupControls() {
   if (previewEl) {
     previewEl.addEventListener('change', (e) => {
       preview = e.target.checked;
+      halftoneDirty = true;
     });
   }
 
@@ -179,28 +189,32 @@ function setupControls() {
   if (dotSizeCEl) {
     dotSizeCEl.addEventListener('input', (e) => {
       dotSizeFactorC = Number(e.target.value);
-      document.getElementById('dotSizeCValue').textContent = dotSizeFactorC.toFixed(2);
+      const label = document.getElementById('dotSizeCValue');
+      if (label) label.textContent = dotSizeFactorC.toFixed(2);
       halftoneDirty = true;
     });
   }
   if (dotSizeMEl) {
     dotSizeMEl.addEventListener('input', (e) => {
       dotSizeFactorM = Number(e.target.value);
-      document.getElementById('dotSizeMValue').textContent = dotSizeFactorM.toFixed(2);
+      const label = document.getElementById('dotSizeMValue');
+      if (label) label.textContent = dotSizeFactorM.toFixed(2);
       halftoneDirty = true;
     });
   }
   if (dotSizeYEl) {
     dotSizeYEl.addEventListener('input', (e) => {
       dotSizeFactorY = Number(e.target.value);
-      document.getElementById('dotSizeYValue').textContent = dotSizeFactorY.toFixed(2);
+      const label = document.getElementById('dotSizeYValue');
+      if (label) label.textContent = dotSizeFactorY.toFixed(2);
       halftoneDirty = true;
     });
   }
   if (dotSizeKEl) {
     dotSizeKEl.addEventListener('input', (e) => {
       dotSizeFactorK = Number(e.target.value);
-      document.getElementById('dotSizeKValue').textContent = dotSizeFactorK.toFixed(2);
+      const label = document.getElementById('dotSizeKValue');
+      if (label) label.textContent = dotSizeFactorK.toFixed(2);
       halftoneDirty = true;
     });
   }
@@ -208,28 +222,32 @@ function setupControls() {
   if (angleCEl) {
     angleCEl.addEventListener('input', (e) => {
       screenAngleC = Number(e.target.value);
-      document.getElementById('angleCValue').textContent = screenAngleC;
+      const label = document.getElementById('angleCValue');
+      if (label) label.textContent = screenAngleC;
       halftoneDirty = true;
     });
   }
   if (angleMEl) {
     angleMEl.addEventListener('input', (e) => {
       screenAngleM = Number(e.target.value);
-      document.getElementById('angleMValue').textContent = screenAngleM;
+      const label = document.getElementById('angleMValue');
+      if (label) label.textContent = screenAngleM;
       halftoneDirty = true;
     });
   }
   if (angleYEl) {
     angleYEl.addEventListener('input', (e) => {
       screenAngleY = Number(e.target.value);
-      document.getElementById('angleYValue').textContent = screenAngleY;
+      const label = document.getElementById('angleYValue');
+      if (label) label.textContent = screenAngleY;
       halftoneDirty = true;
     });
   }
   if (angleKEl) {
     angleKEl.addEventListener('input', (e) => {
       screenAngleK = Number(e.target.value);
-      document.getElementById('angleKValue').textContent = screenAngleK;
+      const label = document.getElementById('angleKValue');
+      if (label) label.textContent = screenAngleK;
       halftoneDirty = true;
     });
   }
@@ -237,28 +255,32 @@ function setupControls() {
   if (imgAngleCEl) {
     imgAngleCEl.addEventListener('input', (e) => {
       angleC = Number(e.target.value);
-      document.getElementById('imgAngleCValue').textContent = angleC;
+      const label = document.getElementById('imgAngleCValue');
+      if (label) label.textContent = angleC;
       halftoneDirty = true;
     });
   }
   if (imgAngleMEl) {
     imgAngleMEl.addEventListener('input', (e) => {
       angleM = Number(e.target.value);
-      document.getElementById('imgAngleMValue').textContent = angleM;
+      const label = document.getElementById('imgAngleMValue');
+      if (label) label.textContent = angleM;
       halftoneDirty = true;
     });
   }
   if (imgAngleYEl) {
     imgAngleYEl.addEventListener('input', (e) => {
       angleY = Number(e.target.value);
-      document.getElementById('imgAngleYValue').textContent = angleY;
+      const label = document.getElementById('imgAngleYValue');
+      if (label) label.textContent = angleY;
       halftoneDirty = true;
     });
   }
   if (imgAngleKEl) {
     imgAngleKEl.addEventListener('input', (e) => {
       angleK = Number(e.target.value);
-      document.getElementById('imgAngleKValue').textContent = angleK;
+      const label = document.getElementById('imgAngleKValue');
+      if (label) label.textContent = angleK;
       halftoneDirty = true;
     });
   }
@@ -310,7 +332,7 @@ function setupControls() {
 
   markInitialChannelShapeButtons();
 
-  if (presetBtn) {
+  if (presetBtn && angleCEl && angleMEl && angleYEl && angleKEl) {
     presetBtn.addEventListener('click', () => {
       screenAngleC = 75;
       screenAngleM = 15;
@@ -322,10 +344,14 @@ function setupControls() {
       angleYEl.value = screenAngleY;
       angleKEl.value = screenAngleK;
 
-      document.getElementById('angleCValue').textContent = screenAngleC;
-      document.getElementById('angleMValue').textContent = screenAngleM;
-      document.getElementById('angleYValue').textContent = screenAngleY;
-      document.getElementById('angleKValue').textContent = screenAngleK;
+      const cLabel = document.getElementById('angleCValue');
+      const mLabel = document.getElementById('angleMValue');
+      const yLabel = document.getElementById('angleYValue');
+      const kLabel = document.getElementById('angleKValue');
+      if (cLabel) cLabel.textContent = screenAngleC;
+      if (mLabel) mLabel.textContent = screenAngleM;
+      if (yLabel) yLabel.textContent = screenAngleY;
+      if (kLabel) kLabel.textContent = screenAngleK;
 
       halftoneDirty = true;
     });
@@ -352,8 +378,8 @@ function setupAdvancedToggle() {
 
   advancedVisible = true;
   panel.classList.add('visible');
-  btn.setAttribute('aria-expanded', 'true');
   panel.hidden = false;
+  btn.setAttribute('aria-expanded', 'true');
 
   btn.addEventListener('click', () => {
     advancedVisible = !advancedVisible;
@@ -420,7 +446,9 @@ function resetParametersOnly() {
 
   fastPreview = false;
   const fastPreviewEl = document.getElementById('fastPreview');
+  const fastPreviewHint = document.getElementById('fastPreviewHint');
   if (fastPreviewEl) fastPreviewEl.checked = false;
+  if (fastPreviewHint) fastPreviewHint.classList.remove('visible');
 
   dotShape = 'circle';
   shapeC = 'global';
@@ -450,17 +478,25 @@ function resetParametersOnly() {
 
   preview = true;
 
-  document.getElementById('dotSize').value = 10;
-  document.getElementById('dotSizeValue').textContent = 10;
+  const dotSizeSlider = document.getElementById('dotSize');
+  const dotSizeLabel = document.getElementById('dotSizeValue');
+  if (dotSizeSlider) dotSizeSlider.value = 10;
+  if (dotSizeLabel) dotSizeLabel.textContent = 10;
 
-  document.getElementById('spacing').value = 10;
-  document.getElementById('spacingValue').textContent = 10;
+  const spacingSlider = document.getElementById('spacing');
+  const spacingLabel = document.getElementById('spacingValue');
+  if (spacingSlider) spacingSlider.value = 10;
+  if (spacingLabel) spacingLabel.textContent = 10;
 
-  document.getElementById('density').value = 1;
-  document.getElementById('densityValue').textContent = '1.0';
+  const densitySlider = document.getElementById('density');
+  const densityLabel = document.getElementById('densityValue');
+  if (densitySlider) densitySlider.value = 1;
+  if (densityLabel) densityLabel.textContent = '1.0';
 
-  document.getElementById('jitter').value = 0;
-  document.getElementById('jitterValue').textContent = '0.00';
+  const jitterSlider = document.getElementById('jitter');
+  const jitterLabel = document.getElementById('jitterValue');
+  if (jitterSlider) jitterSlider.value = 0;
+  if (jitterLabel) jitterLabel.textContent = '0.00';
 
   document.querySelectorAll('.global-shape-btn').forEach(btn => btn.classList.remove('active'));
   const globalCircle = document.querySelector('.global-shape-btn[data-global-shape="circle"]');
@@ -498,7 +534,8 @@ function resetParametersOnly() {
     if (cb) cb.checked = true;
   });
 
-  document.getElementById('preview').checked = true;
+  const previewEl = document.getElementById('preview');
+  if (previewEl) previewEl.checked = true;
 
   document.querySelectorAll('.shape-row').forEach(row => {
     row.querySelectorAll('.shape-btn').forEach(b => b.classList.remove('active'));
@@ -660,6 +697,12 @@ function loadImageFile(file) {
 
       uploaded = true;
       halftoneDirty = true;
+
+      const canvasContainer = document.getElementById('canvas-container');
+      if (canvasContainer) {
+        canvasContainer.classList.add('pan-enabled');
+      }
+
       console.log('Bild geladen, skaliert auf:', w, 'x', h);
     };
     img.src = ev.target.result;

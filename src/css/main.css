@@ -29,6 +29,7 @@ body {
   position: relative;
   overflow: hidden;
   background: #000;
+  cursor: default;
 }
 
 /* Rechtes Panel */
@@ -142,6 +143,18 @@ body {
   color: #ccc;
 }
 
+/* Hinweistext (Performance-Preview etc.) */
+.hint-text {
+  font-size: 10px;
+  color: #777;
+  line-height: 1.4;
+  display: none;
+}
+
+.hint-text.visible {
+  display: block;
+}
+
 /* Preview-Zeile Vorschau + Performance */
 .preview-row {
   flex-direction: row;
@@ -245,7 +258,7 @@ input[type="range"]::-moz-range-track {
   display: none;
 }
 
-/* Channel-Sektionen – stärkerer, aber minimalistischer Kontrast */
+/* Channel-Sektionen */
 .channel-section {
   margin-top: 12px;
   padding: 10px 10px 12px 10px;
@@ -255,7 +268,7 @@ input[type="range"]::-moz-range-track {
   box-shadow: 0 0 0 1px #000;
 }
 
-/* Channel-Header mit klarer Trennung */
+/* Channel-Header */
 .channel-header {
   display: flex;
   justify-content: space-between;
@@ -272,7 +285,6 @@ input[type="range"]::-moz-range-track {
   font-weight: 600;
 }
 
-/* Kanal-Toggle */
 .channel-toggle {
   font-size: 10px;
   color: #aaa;
@@ -281,14 +293,13 @@ input[type="range"]::-moz-range-track {
   gap: 4px;
 }
 
-/* Kanal-Body */
 .channel-body {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-/* Farbakzent nur auf Text, nicht auf Hintergrund */
+/* Kanal-Farben */
 .channel-c .channel-name {
   color: #7bd8ff;
 }
@@ -358,7 +369,7 @@ input[type="range"]::-moz-range-track {
   margin-top: 0;
 }
 
-/* Advanced Panel (ein-/ausblendbar) */
+/* Advanced Panel */
 .advanced-panel {
   display: none;
 }
@@ -367,7 +378,7 @@ input[type="range"]::-moz-range-track {
   display: block;
 }
 
-/* Fullscreen-Modus: Panel ausblenden, Canvas füllt Breite */
+/* Fullscreen-Modus */
 .fullscreen-mode #control-panel {
   display: none;
 }
@@ -380,7 +391,7 @@ input[type="range"]::-moz-range-track {
   flex: 1 1 100%;
 }
 
-/* Restore-Button (kleiner Kreis unten rechts im Canvas) */
+/* Restore-Button im Canvas */
 #panel-restore-btn {
   position: absolute;
   right: 14px;
@@ -405,7 +416,6 @@ input[type="range"]::-moz-range-track {
   transform: translateY(-1px);
 }
 
-/* Im Fullscreen-Modus sichtbar */
 .fullscreen-mode #panel-restore-btn {
   display: flex;
 }
@@ -416,7 +426,16 @@ input[type="range"]::-moz-range-track {
   outline-offset: -8px;
 }
 
-/* Credit-Tag auf der Canvas (unten links) */
+/* Panning-Cursor-States */
+#canvas-container.pan-enabled {
+  cursor: grab;
+}
+
+#canvas-container.panning {
+  cursor: grabbing;
+}
+
+/* Canvas-Credit */
 #canvas-credit {
   position: absolute;
   left: 12px;
