@@ -5,32 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CMYK Halftone Raster Tool</title>
 
-  <!-- JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap"
     rel="stylesheet"
   />
 
-  <!-- Haupt-CSS -->
   <link rel="stylesheet" href="./src/css/main.css" />
 
-  <!-- p5.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.0/p5.js"></script>
-
-  <!-- Eigene Skripte -->
   <script src="./src/js/ui.js"></script>
   <script src="./src/js/sketch.js"></script>
 </head>
 <body>
   <main id="main-container">
-    <!-- Links: Canvas -->
     <div id="canvas-container">
-      <!-- Button zum Wieder-Einblenden, nur im Fullscreen-Modus sichtbar -->
       <button id="panel-restore-btn" aria-label="Bedienpanel einblenden">⤡</button>
 
-      <!-- Credit-Tag auf der Canvas -->
       <div id="canvas-credit">
         <a
           href="https://www.instagram.com/clarasentwurf/"
@@ -42,23 +34,20 @@
       </div>
     </div>
 
-    <!-- Rechts: Controls -->
     <aside id="control-panel">
-      <!-- Header -->
       <header id="panel-header">
         <h1>CMYK Halftone Simulator</h1>
         <button
           id="panel-toggle-btn"
           aria-label="Fullscreen Vorschau aktivieren"
           aria-pressed="false"
+          type="button"
         >
           ⤢
         </button>
       </header>
 
-      <!-- Scrollbarer Inhalt -->
       <div id="panel-scroll">
-        <!-- Image Upload -->
         <section class="control-section upload-section">
           <div class="upload-row">
             <div id="dropZone" class="drop-zone">drag &amp; drop</div>
@@ -69,7 +58,6 @@
           </div>
         </section>
 
-        <!-- Globale Parameter -->
         <section class="control-section">
           <label class="section-label">
             Punktgröße Global: <span id="dotSizeValue">10</span>px
@@ -92,7 +80,6 @@
           <input type="range" id="jitter" min="0" max="1" step="0.05" value="0" />
         </section>
 
-        <!-- Preview Zoom -->
         <section class="control-section">
           <label class="section-label">
             Preview Zoom: <span id="zoomValue">100</span>%
@@ -107,7 +94,6 @@
           />
         </section>
 
-        <!-- Preview Optionen -->
         <section class="control-section preview-row">
           <label class="section-label preview-label">
             <input type="checkbox" id="preview" checked />
@@ -119,63 +105,24 @@
           </label>
         </section>
 
-        <!-- Performance-Hinweis -->
         <section class="control-section">
           <p id="fastPreviewHint" class="hint-text">
             Performance-Preview aktiv: Vorschau gröber, Export volle Qualität.
           </p>
         </section>
 
-        <!-- Globale Punktform -->
         <section class="control-section">
           <label class="section-label">Punktform:</label>
           <div class="shape-row global-shape-row">
-            <button
-              type="button"
-              class="shape-btn global-shape-btn active"
-              data-global-shape="circle"
-            >
-              ●
-            </button>
-            <button
-              type="button"
-              class="shape-btn global-shape-btn"
-              data-global-shape="square"
-            >
-              ■
-            </button>
-            <button
-              type="button"
-              class="shape-btn global-shape-btn"
-              data-global-shape="line"
-            >
-              ━
-            </button>
-            <button
-              type="button"
-              class="shape-btn global-shape-btn"
-              data-global-shape="triangle"
-            >
-              ▲
-            </button>
-            <button
-              type="button"
-              class="shape-btn global-shape-btn"
-              data-global-shape="star"
-            >
-              ★
-            </button>
-            <button
-              type="button"
-              class="shape-btn global-shape-btn"
-              data-global-shape="asterisk"
-            >
-              *
-            </button>
+            <button type="button" class="shape-btn global-shape-btn active" data-global-shape="circle">●</button>
+            <button type="button" class="shape-btn global-shape-btn" data-global-shape="square">■</button>
+            <button type="button" class="shape-btn global-shape-btn" data-global-shape="line">━</button>
+            <button type="button" class="shape-btn global-shape-btn" data-global-shape="triangle">▲</button>
+            <button type="button" class="shape-btn global-shape-btn" data-global-shape="star">★</button>
+            <button type="button" class="shape-btn global-shape-btn" data-global-shape="asterisk">*</button>
           </div>
         </section>
 
-        <!-- Erweitert: Button + Panel -->
         <section class="control-section">
           <button
             id="advancedToggleBtn"
@@ -194,7 +141,6 @@
           role="region"
           aria-label="Erweiterte Kanal-Einstellungen"
         >
-          <!-- CYAN -->
           <section class="channel-section channel-c">
             <header class="channel-header">
               <span class="channel-name">Cyan</span>
@@ -208,14 +154,7 @@
               <label class="section-label">
                 Punktgröße Cyan: <span id="dotSizeCValue">1.00</span>
               </label>
-              <input
-                type="range"
-                id="dotSizeC"
-                min="0.2"
-                max="2"
-                step="0.05"
-                value="1"
-              />
+              <input type="range" id="dotSizeC" min="0.2" max="2" step="0.05" value="1" />
 
               <label class="section-label">
                 Screen-Winkel: <span id="angleCValue">75</span>°
@@ -239,7 +178,6 @@
             </div>
           </section>
 
-          <!-- MAGENTA -->
           <section class="channel-section channel-m">
             <header class="channel-header">
               <span class="channel-name">Magenta</span>
@@ -253,14 +191,7 @@
               <label class="section-label">
                 Punktgröße Magenta: <span id="dotSizeMValue">1.00</span>
               </label>
-              <input
-                type="range"
-                id="dotSizeM"
-                min="0.2"
-                max="2"
-                step="0.05"
-                value="1"
-              />
+              <input type="range" id="dotSizeM" min="0.2" max="2" step="0.05" value="1" />
 
               <label class="section-label">
                 Screen-Winkel: <span id="angleMValue">15</span>°
@@ -284,7 +215,6 @@
             </div>
           </section>
 
-          <!-- YELLOW -->
           <section class="channel-section channel-y">
             <header class="channel-header">
               <span class="channel-name">Yellow</span>
@@ -298,14 +228,7 @@
               <label class="section-label">
                 Punktgröße Yellow: <span id="dotSizeYValue">1.00</span>
               </label>
-              <input
-                type="range"
-                id="dotSizeY"
-                min="0.2"
-                max="2"
-                step="0.05"
-                value="1"
-              />
+              <input type="range" id="dotSizeY" min="0.2" max="2" step="0.05" value="1" />
 
               <label class="section-label">
                 Screen-Winkel: <span id="angleYValue">0</span>°
@@ -329,7 +252,6 @@
             </div>
           </section>
 
-          <!-- BLACK -->
           <section class="channel-section channel-k">
             <header class="channel-header">
               <span class="channel-name">Black (K)</span>
@@ -343,14 +265,7 @@
               <label class="section-label">
                 Punktgröße Black: <span id="dotSizeKValue">1.00</span>
               </label>
-              <input
-                type="range"
-                id="dotSizeK"
-                min="0.2"
-                max="2"
-                step="0.05"
-                value="1"
-              />
+              <input type="range" id="dotSizeK" min="0.2" max="2" step="0.05" value="1" />
 
               <label class="section-label">
                 Screen-Winkel: <span id="angleKValue">45</span>°
@@ -380,15 +295,66 @@
         </section>
       </div>
 
-      <!-- Footer -->
       <footer id="panel-footer">
         <div class="footer-actions">
           <button id="resetBtn" type="button">↺</button>
-          <button id="downloadJpeg" type="button">Bild als JPEG</button>
-          <button id="downloadLayers" type="button">CMYK Ebenen als Layer</button>
+          <button id="openExportDialogBtn" type="button">Export</button>
         </div>
       </footer>
     </aside>
   </main>
+
+  <dialog id="exportDialog" class="export-dialog" aria-labelledby="exportDialogTitle">
+    <form method="dialog" class="export-dialog-inner">
+      <div class="export-dialog-header">
+        <h2 id="exportDialogTitle">Export</h2>
+        <button type="button" id="closeExportDialogBtn" class="dialog-close-btn" aria-label="Export-Fenster schließen">×</button>
+      </div>
+
+      <div class="export-dialog-body">
+        <section class="control-section">
+          <label class="section-label">Export-Typ</label>
+          <div class="export-button-group" id="exportTypeGroup">
+            <button type="button" class="export-option-btn active" data-export-type="jpeg">JPEG</button>
+            <button type="button" class="export-option-btn" data-export-type="layers">Layer as is</button>
+            <button type="button" class="export-option-btn" data-export-type="labeled-layers">Siebdruck Export</button>
+          </div>
+        </section>
+
+        <section class="control-section">
+          <label class="section-label">Größe</label>
+          <div class="export-button-group export-size-group" id="exportFormatGroup">
+            <button type="button" class="export-option-btn active" data-export-format="original">Original Size</button>
+            <button type="button" class="export-option-btn" data-export-format="A1">A1</button>
+            <button type="button" class="export-option-btn" data-export-format="A2">A2</button>
+            <button type="button" class="export-option-btn" data-export-format="A3">A3</button>
+            <button type="button" class="export-option-btn" data-export-format="A4">A4</button>
+            <button type="button" class="export-option-btn" data-export-format="A5">A5</button>
+          </div>
+          <p class="hint-text always-visible">
+            A-Formate nutzen 300 dpi. Das Motiv wird proportional eingepasst, übrige Fläche bleibt weiß.
+          </p>
+        </section>
+
+        <section class="control-section">
+          <label class="section-label export-check-row">
+            <input type="checkbox" id="exportBottomRightMark" />
+            Passermarke rechts unten
+          </label>
+        </section>
+
+        <section class="control-section">
+          <p class="hint-text" id="exportLargeFormatHint">
+            Große Formate wie A1 oder A2 können beim Export länger dauern und mehr Speicher benötigen.
+          </p>
+        </section>
+      </div>
+
+      <div class="export-dialog-footer">
+        <button type="button" id="cancelExportDialogBtn" class="dialog-secondary-btn">Abbrechen</button>
+        <button type="button" id="confirmExportBtn" class="dialog-primary-btn">Export starten</button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>

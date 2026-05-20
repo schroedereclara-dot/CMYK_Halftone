@@ -1,11 +1,9 @@
-/* Schrift + Box-Sizing */
 * {
   font-family: "JetBrains Mono", monospace;
   font-weight: 400;
   box-sizing: border-box;
 }
 
-/* Grundlayout */
 html,
 body {
   margin: 0;
@@ -16,13 +14,16 @@ body {
   color: #eee;
 }
 
+body {
+  min-height: 100%;
+}
+
 #main-container {
   display: flex;
   width: 100%;
   height: 100%;
 }
 
-/* Canvas links */
 #canvas-container {
   flex: 1;
   height: 100%;
@@ -32,7 +33,6 @@ body {
   cursor: default;
 }
 
-/* Rechtes Panel */
 #control-panel {
   position: relative;
   flex: 0 0 25%;
@@ -45,7 +45,6 @@ body {
   box-shadow: 0 0 32px rgba(0, 0, 0, 0.9);
 }
 
-/* Header */
 #panel-header {
   padding: 10px 16px;
   border-bottom: 1px solid #222;
@@ -80,14 +79,12 @@ body {
   transform: translateY(-1px);
 }
 
-/* Scrollbarer Mittelteil */
 #panel-scroll {
   flex: 1;
   overflow-y: auto;
   padding: 10px 16px 80px 16px;
 }
 
-/* Footer */
 #panel-footer {
   position: absolute;
   bottom: 0;
@@ -101,7 +98,6 @@ body {
   gap: 4px;
 }
 
-/* Footer: Buttons */
 .footer-actions {
   display: flex;
   gap: 4px;
@@ -130,7 +126,6 @@ body {
   max-width: 40px;
 }
 
-/* Sektionen / Labels */
 .control-section {
   margin-bottom: 16px;
   display: flex;
@@ -143,7 +138,6 @@ body {
   color: #ccc;
 }
 
-/* Hinweistext (Performance-Preview etc.) */
 .hint-text {
   font-size: 10px;
   color: #777;
@@ -151,11 +145,11 @@ body {
   display: none;
 }
 
-.hint-text.visible {
+.hint-text.visible,
+.hint-text.always-visible {
   display: block;
 }
 
-/* Preview-Zeile Vorschau + Performance */
 .preview-row {
   flex-direction: row;
   justify-content: space-between;
@@ -168,7 +162,6 @@ body {
   gap: 4px;
 }
 
-/* Slider – global für alle Ranges (inkl. Kanal-Regler) */
 input[type="range"] {
   width: 100%;
   height: 4px;
@@ -205,7 +198,6 @@ input[type="range"]::-moz-range-track {
   background: #222;
 }
 
-/* Checkbox */
 .control-section input[type="checkbox"] {
   width: 14px;
   height: 14px;
@@ -214,7 +206,6 @@ input[type="range"]::-moz-range-track {
   margin-right: 4px;
 }
 
-/* Upload */
 .upload-section .upload-row {
   display: flex;
   gap: 6px;
@@ -258,7 +249,6 @@ input[type="range"]::-moz-range-track {
   display: none;
 }
 
-/* Channel-Sektionen */
 .channel-section {
   margin-top: 12px;
   padding: 10px 10px 12px 10px;
@@ -268,7 +258,6 @@ input[type="range"]::-moz-range-track {
   box-shadow: 0 0 0 1px #000;
 }
 
-/* Channel-Header */
 .channel-header {
   display: flex;
   justify-content: space-between;
@@ -282,7 +271,7 @@ input[type="range"]::-moz-range-track {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .channel-toggle {
@@ -299,7 +288,6 @@ input[type="range"]::-moz-range-track {
   gap: 6px;
 }
 
-/* Kanal-Farben */
 .channel-c .channel-name {
   color: #7bd8ff;
 }
@@ -313,7 +301,6 @@ input[type="range"]::-moz-range-track {
   color: #f5f5f5;
 }
 
-/* Shape-Buttons */
 .shape-row {
   display: flex;
   gap: 4px;
@@ -345,7 +332,6 @@ input[type="range"]::-moz-range-track {
   border-color: #f5f5f5;
 }
 
-/* Preset-Button & Advanced-Toggle */
 .preset-btn {
   margin-top: 10px;
   width: 100%;
@@ -369,7 +355,6 @@ input[type="range"]::-moz-range-track {
   margin-top: 0;
 }
 
-/* Advanced Panel */
 .advanced-panel {
   display: none;
 }
@@ -378,7 +363,6 @@ input[type="range"]::-moz-range-track {
   display: block;
 }
 
-/* Fullscreen-Modus */
 .fullscreen-mode #control-panel {
   display: none;
 }
@@ -391,7 +375,6 @@ input[type="range"]::-moz-range-track {
   flex: 1 1 100%;
 }
 
-/* Restore-Button im Canvas */
 #panel-restore-btn {
   position: absolute;
   right: 14px;
@@ -420,13 +403,11 @@ input[type="range"]::-moz-range-track {
   display: flex;
 }
 
-/* Canvas-Dropzone Highlight */
 #canvas-container.drag-over {
   outline: 2px dashed #666;
   outline-offset: -8px;
 }
 
-/* Panning-Cursor-States */
 #canvas-container.pan-enabled {
   cursor: grab;
 }
@@ -435,7 +416,6 @@ input[type="range"]::-moz-range-track {
   cursor: grabbing;
 }
 
-/* Canvas-Credit */
 #canvas-credit {
   position: absolute;
   left: 12px;
@@ -459,7 +439,138 @@ input[type="range"]::-moz-range-track {
   text-decoration: underline;
 }
 
-/* Responsive */
+.export-dialog {
+  width: min(460px, calc(100vw - 32px));
+  border: 1px solid #2a2a2a;
+  background: #0b0b0b;
+  color: #eee;
+  padding: 0;
+  border-radius: 8px;
+  box-shadow: 0 0 32px rgba(0, 0, 0, 0.9);
+}
+
+.export-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.export-dialog-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.export-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #222;
+}
+
+.export-dialog-header h2 {
+  margin: 0;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.export-dialog-body {
+  padding: 14px;
+}
+
+.export-dialog-footer {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding: 12px 14px;
+  border-top: 1px solid #222;
+}
+
+.dialog-close-btn,
+.dialog-secondary-btn,
+.dialog-primary-btn {
+  border: none;
+  border-radius: 4px;
+  background: #151515;
+  color: #eee;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background 0.15s ease-out, transform 0.08s ease-out;
+}
+
+.dialog-close-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.dialog-close-btn:hover,
+.dialog-secondary-btn:hover,
+.dialog-primary-btn:hover {
+  background: #222;
+  transform: translateY(-1px);
+}
+
+.dialog-primary-btn {
+  background: #f5f5f5;
+  color: #000;
+}
+
+.dialog-primary-btn:hover {
+  background: #dddddd;
+}
+
+.export-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.export-option-btn {
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: #111;
+  color: #eee;
+  padding: 8px 10px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s ease-out, border-color 0.15s ease-out, transform 0.08s ease-out;
+}
+
+.export-option-btn:hover {
+  background: #222;
+  border-color: #666;
+  transform: translateY(-1px);
+}
+
+.export-option-btn.active {
+  background: #f5f5f5;
+  border-color: #f5f5f5;
+  color: #000;
+}
+
+.export-size-group .export-option-btn {
+  min-width: 92px;
+}
+
+.export-check-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.export-check-row input[type="checkbox"] {
+  margin: 0;
+}
+
 @media (max-width: 768px) {
   #main-container {
     flex-direction: column;

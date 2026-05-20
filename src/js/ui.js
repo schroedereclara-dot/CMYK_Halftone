@@ -1,79 +1,64 @@
-// src/js/ui.js
 'use strict';
 
-// Bild / Quelle
 let originalImg = null;
 let sourceCanvas = null;
 let sourceCtx = null;
 let uploaded = false;
 
-// Globale Parameter
 let dotSize = 10;
 let spacing = 10;
 let density = 1.0;
 let preview = true;
 let jitter = 0.0;
 
-// Preview Zoom (nur Darstellung)
 let previewZoom = 1.0;
 
-// Pan-Offset (nur Darstellung)
 let panOffsetX = 0;
 let panOffsetY = 0;
 
-// Performance-Preview (geringeres Sampling in der Vorschau)
 let fastPreview = false;
 
-// Globale Punktform
 let dotShape = 'circle';
-
-// Kanal-spezifische Formen ('global' = nutze dotShape)
 let shapeC = 'global';
 let shapeM = 'global';
 let shapeY = 'global';
 let shapeK = 'global';
 
-// Per-Kanal Punktgröße (Faktor auf global)
 let dotSizeFactorC = 1.0;
 let dotSizeFactorM = 1.0;
 let dotSizeFactorY = 1.0;
 let dotSizeFactorK = 1.0;
 
-// Image-Winkel (Motiv)
 let angleC = 0, angleM = 0, angleY = 0, angleK = 0;
 
-// Screen-Winkel (Raster)
 let screenAngleC = 75, screenAngleM = 15, screenAngleY = 0, screenAngleK = 45;
 
-// Sichtbarkeit der Kanäle
 let showC = true;
 let showM = true;
 let showY = true;
 let showK = true;
 
-// CMYK-Cache
 let cachedCMYK = null;
 let cachedWidth = 0;
 let cachedHeight = 0;
 
-// Halftone neu berechnen?
 let halftoneDirty = true;
 
-// Fullscreen-State
 let isFullscreenMode = false;
-
-// Zustand Advanced-Panel
 let advancedVisible = false;
 
-// von sketch.js aufgerufen
+let exportSheetFormat = 'original';
+let exportType = 'jpeg';
+let exportBottomRightMark = false;
+
 function initUI() {
   setupControls();
   setupImageUpload();
   setupFullscreenToggle();
   setupAdvancedToggle();
+  setupExportDialog();
 }
 
-// -------------------- Controls --------------------
 function setupControls() {
   const dotSizeEl = document.getElementById('dotSize');
   const spacingEl = document.getElementById('spacing');
@@ -109,10 +94,7 @@ function setupControls() {
   const channelKEnabledEl = document.getElementById('channelKEnabled');
 
   const presetBtn = document.getElementById('anglesPresetBtn');
-  const downloadJpegBtn = document.getElementById('downloadJpeg');
-  const downloadLayersBtn = document.getElementById('downloadLayers');
   const resetBtn = document.getElementById('resetBtn');
-
   const fastPreviewHint = document.getElementById('fastPreviewHint');
 
   if (dotSizeEl) {
@@ -194,6 +176,7 @@ function setupControls() {
       halftoneDirty = true;
     });
   }
+
   if (dotSizeMEl) {
     dotSizeMEl.addEventListener('input', (e) => {
       dotSizeFactorM = Number(e.target.value);
@@ -202,6 +185,7 @@ function setupControls() {
       halftoneDirty = true;
     });
   }
+
   if (dotSizeYEl) {
     dotSizeYEl.addEventListener('input', (e) => {
       dotSizeFactorY = Number(e.target.value);
@@ -210,6 +194,7 @@ function setupControls() {
       halftoneDirty = true;
     });
   }
+
   if (dotSizeKEl) {
     dotSizeKEl.addEventListener('input', (e) => {
       dotSizeFactorK = Number(e.target.value);
@@ -227,6 +212,7 @@ function setupControls() {
       halftoneDirty = true;
     });
   }
+
   if (angleMEl) {
     angleMEl.addEventListener('input', (e) => {
       screenAngleM = Number(e.target.value);
@@ -235,6 +221,7 @@ function setupControls() {
       halftoneDirty = true;
     });
   }
+
   if (angleYEl) {
     angleYEl.addEventListener('input', (e) => {
       screenAngleY = Number(e.target.value);
@@ -243,6 +230,7 @@ function setupControls() {
       halftoneDirty = true;
     });
   }
+
   if (angleKEl) {
     angleKEl.addEventListener('input', (e) => {
       screenAngleK = Number(e.target.value);
@@ -260,6 +248,7 @@ function setupControls() {
       halftoneDirty = true;
     });
   }
+
   if (imgAngleMEl) {
     imgAngleMEl.addEventListener('input', (e) => {
       angleM = Number(e.target.value);
@@ -268,6 +257,7 @@ function setupControls() {
       halftoneDirty = true;
     });
   }
+
   if (imgAngleYEl) {
     imgAngleYEl.addEventListener('input', (e) => {
       angleY = Number(e.target.value);
@@ -276,6 +266,7 @@ function setupControls() {
       halftoneDirty = true;
     });
   }
+
   if (imgAngleKEl) {
     imgAngleKEl.addEventListener('input', (e) => {
       angleK = Number(e.target.value);
@@ -291,18 +282,21 @@ function setupControls() {
       halftoneDirty = true;
     });
   }
+
   if (channelMEnabledEl) {
     channelMEnabledEl.addEventListener('change', (e) => {
       showM = e.target.checked;
       halftoneDirty = true;
     });
   }
+
   if (channelYEnabledEl) {
     channelYEnabledEl.addEventListener('change', (e) => {
       showY = e.target.checked;
       halftoneDirty = true;
     });
   }
+
   if (channelKEnabledEl) {
     channelKEnabledEl.addEventListener('change', (e) => {
       showK = e.target.checked;
@@ -357,10 +351,9 @@ function setupControls() {
     });
   }
 
-  if (downloadJpegBtn) downloadJpegBtn.addEventListener('click', downloadAsJpeg);
-  if (downloadLayersBtn) downloadLayersBtn.addEventListener('click', downloadAsLayers);
-
-  if (resetBtn) resetBtn.addEventListener('click', resetParametersOnly);
+  if (resetBtn) {
+    resetBtn.addEventListener('click', resetParametersOnly);
+  }
 }
 
 function markInitialChannelShapeButtons() {
@@ -370,7 +363,6 @@ function markInitialChannelShapeButtons() {
   });
 }
 
-// -------------------- Advanced Toggle --------------------
 function setupAdvancedToggle() {
   const btn = document.getElementById('advancedToggleBtn');
   const panel = document.getElementById('advancedPanel');
@@ -395,7 +387,6 @@ function setupAdvancedToggle() {
   });
 }
 
-// -------------------- Fullscreen / Panel Hide --------------------
 function setupFullscreenToggle() {
   const body = document.body;
   const toggleBtn = document.getElementById('panel-toggle-btn');
@@ -407,9 +398,7 @@ function setupFullscreenToggle() {
       body.classList.add('fullscreen-mode');
       toggleBtn.setAttribute('aria-pressed', 'true');
       toggleBtn.setAttribute('aria-label', 'Fullscreen Vorschau aktiv');
-      if (typeof windowResized === 'function') {
-        windowResized();
-      }
+      if (typeof windowResized === 'function') windowResized();
     });
   }
 
@@ -421,14 +410,91 @@ function setupFullscreenToggle() {
         toggleBtn.setAttribute('aria-pressed', 'false');
         toggleBtn.setAttribute('aria-label', 'Fullscreen Vorschau aktivieren');
       }
-      if (typeof windowResized === 'function') {
-        windowResized();
-      }
+      if (typeof windowResized === 'function') windowResized();
     });
   }
 }
 
-// -------------------- Reset --------------------
+function setupExportDialog() {
+  const dialog = document.getElementById('exportDialog');
+  const openBtn = document.getElementById('openExportDialogBtn');
+  const closeBtn = document.getElementById('closeExportDialogBtn');
+  const cancelBtn = document.getElementById('cancelExportDialogBtn');
+  const confirmBtn = document.getElementById('confirmExportBtn');
+  const typeButtons = document.querySelectorAll('[data-export-type]');
+  const formatButtons = document.querySelectorAll('[data-export-format]');
+  const bottomRightMarkEl = document.getElementById('exportBottomRightMark');
+  const largeFormatHint = document.getElementById('exportLargeFormatHint');
+
+  if (!dialog || !openBtn || !confirmBtn) return;
+
+  const syncLargeFormatHint = () => {
+    const isLarge = exportSheetFormat === 'A1' || exportSheetFormat === 'A2';
+    if (largeFormatHint) {
+      largeFormatHint.classList.toggle('visible', isLarge);
+    }
+  };
+
+  typeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      exportType = btn.dataset.exportType;
+      typeButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  formatButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      exportSheetFormat = btn.dataset.exportFormat;
+      formatButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      syncLargeFormatHint();
+    });
+  });
+
+  if (bottomRightMarkEl) {
+    bottomRightMarkEl.checked = exportBottomRightMark;
+    bottomRightMarkEl.addEventListener('change', (e) => {
+      exportBottomRightMark = e.target.checked;
+    });
+  }
+
+  openBtn.addEventListener('click', () => {
+    syncLargeFormatHint();
+    dialog.showModal();
+  });
+
+  const closeDialog = () => dialog.close();
+
+  if (closeBtn) closeBtn.addEventListener('click', closeDialog);
+  if (cancelBtn) cancelBtn.addEventListener('click', closeDialog);
+
+  dialog.addEventListener('click', (e) => {
+    const rect = dialog.getBoundingClientRect();
+    const inside =
+      e.clientX >= rect.left &&
+      e.clientX <= rect.right &&
+      e.clientY >= rect.top &&
+      e.clientY <= rect.bottom;
+
+    if (!inside) {
+      dialog.close();
+    }
+  });
+
+  confirmBtn.addEventListener('click', () => {
+    if (exportType === 'jpeg') {
+      downloadAsJpeg();
+    } else if (exportType === 'layers') {
+      downloadAsLayers(exportSheetFormat, exportBottomRightMark);
+    } else if (exportType === 'labeled-layers') {
+      downloadAsLabeledLayers(exportSheetFormat, exportBottomRightMark);
+    }
+
+    dialog.close();
+  });
+}
+
 function resetParametersOnly() {
   dotSize = 10;
   spacing = 10;
@@ -478,6 +544,21 @@ function resetParametersOnly() {
 
   preview = true;
 
+  exportSheetFormat = 'original';
+  exportType = 'jpeg';
+  exportBottomRightMark = false;
+
+  const bottomRightMarkEl = document.getElementById('exportBottomRightMark');
+  if (bottomRightMarkEl) bottomRightMarkEl.checked = false;
+
+  document.querySelectorAll('[data-export-type]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.exportType === 'jpeg');
+  });
+
+  document.querySelectorAll('[data-export-format]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.exportFormat === 'original');
+  });
+
   const dotSizeSlider = document.getElementById('dotSize');
   const dotSizeLabel = document.getElementById('dotSizeValue');
   if (dotSizeSlider) dotSizeSlider.value = 10;
@@ -498,6 +579,9 @@ function resetParametersOnly() {
   if (jitterSlider) jitterSlider.value = 0;
   if (jitterLabel) jitterLabel.textContent = '0.00';
 
+  const previewEl = document.getElementById('preview');
+  if (previewEl) previewEl.checked = true;
+
   document.querySelectorAll('.global-shape-btn').forEach(btn => btn.classList.remove('active'));
   const globalCircle = document.querySelector('.global-shape-btn[data-global-shape="circle"]');
   if (globalCircle) globalCircle.classList.add('active');
@@ -508,6 +592,7 @@ function resetParametersOnly() {
     if (elS) elS.value = 1;
     if (elL) elL.textContent = '1.00';
   };
+
   setDot('dotSizeC', 'dotSizeCValue');
   setDot('dotSizeM', 'dotSizeMValue');
   setDot('dotSizeY', 'dotSizeYValue');
@@ -519,6 +604,7 @@ function resetParametersOnly() {
     if (s) s.value = value;
     if (l) l.textContent = value;
   };
+
   setAng('angleC', 'angleCValue', 75);
   setAng('angleM', 'angleMValue', 15);
   setAng('angleY', 'angleYValue', 0);
@@ -533,9 +619,6 @@ function resetParametersOnly() {
     const cb = document.getElementById(`channel${ch}Enabled`);
     if (cb) cb.checked = true;
   });
-
-  const previewEl = document.getElementById('preview');
-  if (previewEl) previewEl.checked = true;
 
   document.querySelectorAll('.shape-row').forEach(row => {
     row.querySelectorAll('.shape-btn').forEach(b => b.classList.remove('active'));
@@ -555,7 +638,6 @@ function resetParametersOnly() {
   halftoneDirty = true;
 }
 
-// -------------------- Image Upload --------------------
 function setupImageUpload() {
   const fileInput = document.getElementById('imageUpload');
   const dropZone = document.getElementById('dropZone');
@@ -572,11 +654,8 @@ function setupImageUpload() {
     });
   }
 
-  // Browser soll Datei nicht einfach öffnen
   ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    window.addEventListener(eventName, (e) => {
-      e.preventDefault();
-    });
+    window.addEventListener(eventName, (e) => e.preventDefault());
   });
 
   function isImageDrag(e) {
@@ -622,15 +701,12 @@ function setupImageUpload() {
     dropZone.addEventListener('dragleave', (e) => {
       if (!isImageDrag(e)) return;
       dropZoneDragCounter = Math.max(0, dropZoneDragCounter - 1);
-      if (dropZoneDragCounter === 0) {
-        deactivateDropZone();
-      }
+      if (dropZoneDragCounter === 0) deactivateDropZone();
     });
 
     dropZone.addEventListener('drop', (e) => {
       dropZoneDragCounter = 0;
       deactivateDropZone();
-
       const file = getFirstImageFile(e);
       if (file) loadImageFile(file);
     });
@@ -652,15 +728,12 @@ function setupImageUpload() {
     canvasContainer.addEventListener('dragleave', (e) => {
       if (!isImageDrag(e)) return;
       canvasDragCounter = Math.max(0, canvasDragCounter - 1);
-      if (canvasDragCounter === 0) {
-        deactivateCanvasZone();
-      }
+      if (canvasDragCounter === 0) deactivateCanvasZone();
     });
 
     canvasContainer.addEventListener('drop', (e) => {
       canvasDragCounter = 0;
       deactivateCanvasZone();
-
       const file = getFirstImageFile(e);
       if (file) loadImageFile(file);
     });
@@ -702,8 +775,6 @@ function loadImageFile(file) {
       if (canvasContainer) {
         canvasContainer.classList.add('pan-enabled');
       }
-
-      console.log('Bild geladen, skaliert auf:', w, 'x', h);
     };
     img.src = ev.target.result;
   };
