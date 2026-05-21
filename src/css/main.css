@@ -571,6 +571,22 @@ input[type="range"]::-moz-range-track {
   margin: 0;
 }
 
+.is-hidden {
+  display: none !important;
+}
+
+.export-option-btn-static {
+  cursor: default;
+  pointer-events: none;
+}
+
+.export-option-btn-static:hover {
+  background: #f5f5f5;
+  border-color: #f5f5f5;
+  color: #000;
+  transform: none;
+}
+
 @media (max-width: 768px) {
   #main-container {
     flex-direction: column;

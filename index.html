@@ -321,9 +321,20 @@
           </div>
         </section>
 
-        <section class="control-section">
+        <section class="control-section" id="exportSizeSection">
           <label class="section-label">Größe</label>
-          <div class="export-button-group export-size-group" id="exportFormatGroup">
+
+          <div class="export-button-group export-size-group" id="exportOriginalOnlyGroup">
+            <button
+              type="button"
+              class="export-option-btn active export-option-btn-static"
+              data-export-format="original-static"
+            >
+              Original Size
+            </button>
+          </div>
+
+          <div class="export-button-group export-size-group is-hidden" id="exportScreenprintGroup">
             <button type="button" class="export-option-btn active" data-export-format="original">Original Size</button>
             <button type="button" class="export-option-btn" data-export-format="A1">A1</button>
             <button type="button" class="export-option-btn" data-export-format="A2">A2</button>
@@ -331,16 +342,11 @@
             <button type="button" class="export-option-btn" data-export-format="A4">A4</button>
             <button type="button" class="export-option-btn" data-export-format="A5">A5</button>
           </div>
-          <p class="hint-text always-visible">
-            A-Formate nutzen 300 dpi. Das Motiv wird proportional eingepasst, übrige Fläche bleibt weiß.
-          </p>
-        </section>
 
-        <section class="control-section">
-          <label class="section-label export-check-row">
-            <input type="checkbox" id="exportBottomRightMark" />
-            Passermarke rechts unten
-          </label>
+          <p class="hint-text always-visible is-hidden" id="exportScreenprintHint">
+            Das Motiv wird proportional auf das A-Format angepasst und auf ein SRA-Format platziert.
+            Dabei werden Layer-Benennungen und Passermarken hinzugefügt.
+          </p>
         </section>
 
         <section class="control-section">

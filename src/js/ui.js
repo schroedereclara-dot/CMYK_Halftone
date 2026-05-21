@@ -49,7 +49,6 @@ let advancedVisible = false;
 
 let exportSheetFormat = 'original';
 let exportType = 'jpeg';
-let exportBottomRightMark = false;
 
 function initUI() {
   setupControls();
@@ -421,18 +420,49 @@ function setupExportDialog() {
   const closeBtn = document.getElementById('closeExportDialogBtn');
   const cancelBtn = document.getElementById('cancelExportDialogBtn');
   const confirmBtn = document.getElementById('confirmExportBtn');
+
   const typeButtons = document.querySelectorAll('[data-export-type]');
-  const formatButtons = document.querySelectorAll('[data-export-format]');
-  const bottomRightMarkEl = document.getElementById('exportBottomRightMark');
+  const screenprintFormatButtons = document.querySelectorAll('#exportScreenprintGroup [data-export-format]');
+
+  const originalOnlyGroup = document.getElementById('exportOriginalOnlyGroup');
+  const screenprintGroup = document.getElementById('exportScreenprintGroup');
+  const screenprintHint = document.getElementById('exportScreenprintHint');
   const largeFormatHint = document.getElementById('exportLargeFormatHint');
 
   if (!dialog || !openBtn || !confirmBtn) return;
 
   const syncLargeFormatHint = () => {
+    const isScreenprint = exportType === 'labeled-layers';
     const isLarge = exportSheetFormat === 'A1' || exportSheetFormat === 'A2';
+
     if (largeFormatHint) {
-      largeFormatHint.classList.toggle('visible', isLarge);
+      largeFormatHint.classList.toggle('visible', isScreenprint && isLarge);
     }
+  };
+
+  const syncExportUi = () => {
+    const isScreenprint = exportType === 'labeled-layers';
+
+    if (originalOnlyGroup) {
+      originalOnlyGroup.classList.toggle('is-hidden', isScreenprint);
+    }
+
+    if (screenprintGroup) {
+      screenprintGroup.classList.toggle('is-hidden', !isScreenprint);
+    }
+
+    if (screenprintHint) {
+      screenprintHint.classList.toggle('is-hidden', !isScreenprint);
+    }
+
+    if (!isScreenprint) {
+      exportSheetFormat = 'original';
+      screenprintFormatButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.exportFormat === 'original');
+      });
+    }
+
+    syncLargeFormatHint();
   };
 
   typeButtons.forEach(btn => {
@@ -440,27 +470,21 @@ function setupExportDialog() {
       exportType = btn.dataset.exportType;
       typeButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      syncExportUi();
     });
   });
 
-  formatButtons.forEach(btn => {
+  screenprintFormatButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       exportSheetFormat = btn.dataset.exportFormat;
-      formatButtons.forEach(b => b.classList.remove('active'));
+      screenprintFormatButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       syncLargeFormatHint();
     });
   });
 
-  if (bottomRightMarkEl) {
-    bottomRightMarkEl.checked = exportBottomRightMark;
-    bottomRightMarkEl.addEventListener('change', (e) => {
-      exportBottomRightMark = e.target.checked;
-    });
-  }
-
   openBtn.addEventListener('click', () => {
-    syncLargeFormatHint();
+    syncExportUi();
     dialog.showModal();
   });
 
@@ -486,13 +510,15 @@ function setupExportDialog() {
     if (exportType === 'jpeg') {
       downloadAsJpeg();
     } else if (exportType === 'layers') {
-      downloadAsLayers(exportSheetFormat, exportBottomRightMark);
+      downloadAsLayers('original');
     } else if (exportType === 'labeled-layers') {
-      downloadAsLabeledLayers(exportSheetFormat, exportBottomRightMark);
+      downloadAsLabeledLayers(exportSheetFormat);
     }
 
     dialog.close();
   });
+
+  syncExportUi();
 }
 
 function resetParametersOnly() {
@@ -546,16 +572,12 @@ function resetParametersOnly() {
 
   exportSheetFormat = 'original';
   exportType = 'jpeg';
-  exportBottomRightMark = false;
-
-  const bottomRightMarkEl = document.getElementById('exportBottomRightMark');
-  if (bottomRightMarkEl) bottomRightMarkEl.checked = false;
 
   document.querySelectorAll('[data-export-type]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.exportType === 'jpeg');
   });
 
-  document.querySelectorAll('[data-export-format]').forEach(btn => {
+  document.querySelectorAll('#exportScreenprintGroup [data-export-format]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.exportFormat === 'original');
   });
 
@@ -634,6 +656,16 @@ function resetParametersOnly() {
     advancedVisible = true;
     btn.setAttribute('aria-expanded', 'true');
   }
+
+  const originalOnlyGroup = document.getElementById('exportOriginalOnlyGroup');
+  const screenprintGroup = document.getElementById('exportScreenprintGroup');
+  const screenprintHint = document.getElementById('exportScreenprintHint');
+  const largeFormatHint = document.getElementById('exportLargeFormatHint');
+
+  if (originalOnlyGroup) originalOnlyGroup.classList.remove('is-hidden');
+  if (screenprintGroup) screenprintGroup.classList.add('is-hidden');
+  if (screenprintHint) screenprintHint.classList.add('is-hidden');
+  if (largeFormatHint) largeFormatHint.classList.remove('visible');
 
   halftoneDirty = true;
 }

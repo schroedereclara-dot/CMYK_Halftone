@@ -711,7 +711,7 @@ async function downloadAsJpeg() {
   releaseCanvasMemory(canvas, ctx);
 }
 
-async function downloadAsLayers(formatLabel = 'original', addBottomRightMark = false) {
+async function downloadAsLayers(formatLabel = 'original') {
   if (!uploaded || !sourceCanvas) return;
 
   const chanData = getCMYKGraysCached();
@@ -728,10 +728,6 @@ async function downloadAsLayers(formatLabel = 'original', addBottomRightMark = f
     const canvas = rendered.canvas;
     const ctx = rendered.ctx;
 
-    if (addBottomRightMark) {
-      drawDiagonalRegistrationMarks(ctx, canvas.width, canvas.height);
-    }
-
     const blob = await canvasToPngBlobWith300Dpi(canvas);
     downloadBlob(blob, `halftone_${ch}_${layout.formatName}_${layout.outerFormatName}.png`);
 
@@ -739,7 +735,7 @@ async function downloadAsLayers(formatLabel = 'original', addBottomRightMark = f
   }
 }
 
-async function downloadAsLabeledLayers(formatLabel = 'original', addBottomRightMark = false) {
+async function downloadAsLabeledLayers(formatLabel = 'original') {
   if (!uploaded || !sourceCanvas) return;
 
   const chanData = getCMYKGraysCached();
@@ -765,9 +761,7 @@ async function downloadAsLabeledLayers(formatLabel = 'original', addBottomRightM
       layout.artOffsetY
     );
 
-    if (addBottomRightMark) {
-      drawDiagonalRegistrationMarks(ctx, canvas.width, canvas.height);
-    }
+    drawDiagonalRegistrationMarks(ctx, canvas.width, canvas.height);
 
     const blob = await canvasToPngBlobWith300Dpi(canvas);
     downloadBlob(blob, `halftone_${ch}_${layout.formatName}_${layout.outerFormatName}_labeled.png`);
